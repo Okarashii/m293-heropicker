@@ -1,25 +1,44 @@
-import logo from './logo.svg';
 import './App.css';
+import SimpleList from './components/SimpleList/SimpleList';
+import Grid from '@mui/material/Unstable_Grid2';
+import { Box } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const people = [
+        "Spiderman",
+        "Wolverine",
+        "Dad",
+        "Mom",
+        "Doctor",
+        "Politician",
+        "Pastor",
+        "Teacher",
+    ];
+
+    const [candidates, setCandidates] = useState(people);
+    const [heroes, setHeroes] = useState(people);
+    useEffect(() => {
+        setHeroes([]);
+    }, [])
+
+
+    return (
+        <Grid container spacing={2}>
+            <Grid md={5}>
+                <SimpleList list={candidates} header={"Candidates"}/>
+            </Grid>
+            <Grid md={2}>
+                
+            </Grid>
+            <Grid md={5}>
+                <SimpleList list={heroes} header={"Heroes"}/>
+            </Grid>
+        </Grid>
+        // <div className="App">
+
+        // </div>
+    );
 }
 
 export default App;
