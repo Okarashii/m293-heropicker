@@ -1,15 +1,12 @@
 import './SimpleList.css';
-
+import { useState } from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 
-export default function SimpleList({list, header}) {
+export default function SimpleList({list, itemClickHandler, selectedItems}) {
     return (
-        <div className='sl-wrapper'>
-            <h2>{header}</h2>
-            <List sx={{bgcolor: "#0e0f0f", borderRadius: "1rem"}}>
-                {list.map(i => <ListItem key={i}>{i}</ListItem>)}
-            </List>
-        </div>
+        <List sx={{bgcolor: "#0e0f0f", borderRadius: "1rem", width: "10rem", height: "100%"}}>
+            {list.map(i => <ListItemButton onClick={() => itemClickHandler(i)} selected={selectedItems.includes(i)} key={i}>{i}</ListItemButton>)}
+        </List>
     );
 }
