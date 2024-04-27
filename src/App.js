@@ -1,16 +1,7 @@
 import SelectableList from './components/TransferList/SelectableList';
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import { useState } from 'react';
-
-function not(a, b) {
-	return a.filter((value) => b.indexOf(value) === -1);
-}
-
-function intersection(a, b) {
-	return a.filter((value) => b.indexOf(value) !== -1);
-}
 
 export default function App() {
 	const people = [
@@ -25,51 +16,52 @@ export default function App() {
 	];
 
 	const [checked, setChecked] = useState([]);
-	const [left, setLeft] = useState(people);
-	const [right, setRight] = useState([]);
+	const [candidates, setCandidates] = useState(people);
+	const [heroes, setHeroes] = useState([]);
 
-	const leftChecked = intersection(checked, left);
-	const rightChecked = intersection(checked, right);
+	const leftChecked = checked.filter(v => candidates.indexOf(v) !== -1);
+	const rightChecked = checked.filter(v => heroes.indexOf(v) !== -1);
 
 	const handleToggle = (value) => () => {
-		const currentIndex = checked.indexOf(value);
-		const newChecked = [...checked];
-
-		if (currentIndex === -1) {
-			newChecked.push(value);
-		} else {
-			newChecked.splice(currentIndex, 1);
-		}
-
-		setChecked(newChecked);
+		setChecked(curr => curr.indexOf(value) > -1 ? curr.filter(c => c !== value) : [...curr, value])
 	};
 
+	const addToList = (setList, items) => {
+		setList(c => [...c, ...items]);
+	}
+
+	const filterFromList = (setList, items) => {
+		setList(c => c.filter(v => items.indexOf(v) === -1));
+	}
+
 	const handleAllRight = () => {
-		setRight(right.concat(left));
-		setLeft([]);
+		addToList(setHeroes, candidates);
+		setCandidates(c => []);
+		setChecked(c => []);
 	};
 
 	const handleCheckedRight = () => {
-		setRight(right.concat(leftChecked));
-		setLeft(not(left, leftChecked));
-		setChecked(not(checked, leftChecked));
+		addToList(setHeroes, leftChecked);
+		filterFromList(setCandidates, leftChecked);
+		setChecked(c => []);
 	};
 
 	const handleCheckedLeft = () => {
-		setLeft(left.concat(rightChecked));
-		setRight(not(right, rightChecked));
-		setChecked(not(checked, rightChecked));
+		addToList(setCandidates, rightChecked)
+		filterFromList(setHeroes, rightChecked);
+		setChecked(c => []);
 	};
 
 	const handleAllLeft = () => {
-		setLeft(left.concat(right));
-		setRight([]);
+		addToList(setCandidates, heroes)
+		setHeroes(c => []);
+		setChecked(c => []);
 	};
 
 	return (
 		<Grid container spacing={2} justifyContent="center" alignItems="center">
 			<Grid item>
-				<SelectableList list={left} header="Candidates" handleToggle={handleToggle} checked={checked}/>
+				<SelectableList list={candidates} header="Candidates" handleToggle={handleToggle} checked={checked}/>
 			</Grid>
 
 			<Grid item>
@@ -79,7 +71,7 @@ export default function App() {
 						variant="outlined"
 						size="small"
 						onClick={handleAllRight}
-						disabled={left.length === 0}
+						disabled={candidates.length === 0}
 						aria-label="move all right">
 						≫
 					</Button>
@@ -106,7 +98,7 @@ export default function App() {
 						variant="outlined"
 						size="small"
 						onClick={handleAllLeft}
-						disabled={right.length === 0}
+						disabled={heroes.length === 0}
 						aria-label="move all left">
 						≪
 					</Button>
@@ -114,7 +106,7 @@ export default function App() {
 			</Grid>
 
 			<Grid item>
-				<SelectableList list={right} header="Heroes" handleToggle={handleToggle} checked={checked}/>
+				<SelectableList list={heroes} header="Heroes" handleToggle={handleToggle} checked={checked}/>
 			</Grid>
 		</Grid>
 	)

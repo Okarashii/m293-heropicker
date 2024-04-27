@@ -1,13 +1,9 @@
 import * as React from "react";
-import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Typography from '@mui/material/Typography';
 import { Card, CardHeader, Divider } from "@mui/material";
 
 export default function SelectableList({ list, header, handleToggle, checked }) {
