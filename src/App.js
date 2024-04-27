@@ -1,8 +1,14 @@
-import SelectableList from './components/TransferList/SelectableList';
+import { useState } from 'react';
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 export default function App() {
 	const people = [
@@ -15,8 +21,6 @@ export default function App() {
 		"Pastor",
 		"Teacher",
 	];
-
-	const listStyle = {width: 200, height: "100%"};
 
 	const [checked, setChecked] = useState([]);
 	const [candidates, setCandidates] = useState(people);
@@ -62,9 +66,9 @@ export default function App() {
 	};
 
 	return (
-		<Box container sx={{display: 'flex', gap: "3rem", height: 420}}>
+		<Box container sx={{display: 'flex', gap: "3rem", height: 8*50 + 72}}>
 			<Grid item>
-				<Grid container sx={listStyle}>
+				<Grid container sx={{width: 200, height: "100%"}}>
 					<SelectableList list={candidates} header="Candidates" handleToggle={handleToggle} checked={checked}/>
 				</Grid>
 			</Grid>
@@ -111,10 +115,47 @@ export default function App() {
 			</Grid>
 
 			<Grid item>
-				<Grid container sx={listStyle}>
+				<Grid container sx={{width: 200, height: "100%"}}>
 					<SelectableList list={heroes} header="Heroes" handleToggle={handleToggle} checked={checked}/>
 				</Grid>
 			</Grid>
 		</Box>
 	)
+}
+
+function SelectableList({ list, header, handleToggle, checked }) {
+	return (
+		<Stack sx={{ width: "100%", height: "100%", borderRadius: "4px", overflow: "clip" }}>
+			<Typography
+				variant="h5"
+				sx={{ bgcolor: "list.light", textAlign:"center", paddingY: "0.75rem" }}>
+				{header}
+			</Typography>
+			<List
+				dense
+				component="div"
+				role="list"
+				sx={{ height: "100%", width: "100%", bgcolor: "list.dark", overflowY: "auto" }}>
+				{list.map((value) => {
+					const labelId = `transfer-list-item-${value}-label`;
+					return (
+						<ListItemButton
+							key={value}
+							role="listitem"
+							onClick={handleToggle(value)}>
+							<ListItemIcon>
+								<Checkbox
+									checked={checked.indexOf(value) !== -1}
+									tabIndex={-1}
+									disableRipple
+									inputProps={{"aria-labelledby": labelId}}
+								/>
+							</ListItemIcon>
+							<ListItemText id={labelId} primary={value} />
+						</ListItemButton>
+					);
+				})}
+			</List>
+		</Stack>
+	);
 }
