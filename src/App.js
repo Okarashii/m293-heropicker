@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { ButtonGroup } from '@mui/material';
 
 export default function App() {
 	const people = [
@@ -20,6 +21,9 @@ export default function App() {
 		"Politician",
 		"Pastor",
 		"Teacher",
+		"Firefighter",
+		"Police Officer",
+		"Vet"
 	];
 
 	const [checked, setChecked] = useState([]);
@@ -66,7 +70,7 @@ export default function App() {
 	};
 
 	return (
-		<Box container sx={{display: 'flex', gap: "3rem", height: 8*50 + 72}}>
+		<Box container sx={{display: 'flex', gap: "3rem", height: 8*50 + 82}}>
 			<Grid item>
 				<Grid container sx={{width: 200, height: "100%"}}>
 					<SelectableList list={candidates} header="Candidates" handleToggle={handleToggle} checked={checked}/>
@@ -75,42 +79,40 @@ export default function App() {
 
 			<Grid item>
 				<Grid container direction="column" sx={{height: "100%", justifyContent: "center" }}>
-					<Button
-						sx={{ my: 0.5 }}
-						variant="outlined"
-						size="small"
-						onClick={handleAllRight}
-						disabled={candidates.length === 0}
-						aria-label="move all right">
-						≫
-					</Button>
-					<Button
-						sx={{ my: 0.5 }}
-						variant="outlined"
-						size="small"
-						onClick={handleCheckedRight}
-						disabled={leftChecked.length === 0}
-						aria-label="move selected right">
-						&gt;
-					</Button>
-					<Button
-						sx={{ my: 0.5 }}
-						variant="outlined"
-						size="small"
-						onClick={handleCheckedLeft}
-						disabled={rightChecked.length === 0}
-						aria-label="move selected left">
-						&lt;
-					</Button>
-					<Button
-						sx={{ my: 0.5 }}
-						variant="outlined"
-						size="small"
-						onClick={handleAllLeft}
-						disabled={heroes.length === 0}
-						aria-label="move all left">
-						≪
-					</Button>
+					<ButtonGroup orientation='vertical' color="primary" variant="hovering">
+						<Button
+							variant="contained"
+							size="large"
+							onClick={handleAllRight}
+							disabled={candidates.length === 0}
+							aria-label="move all right">
+							≫
+						</Button>
+						<Button
+							variant="contained"
+							size="large"
+							onClick={handleCheckedRight}
+							disabled={leftChecked.length === 0}
+							aria-label="move selected right">
+							&gt;
+						</Button>
+						<Button
+							variant="contained"
+							size="large"
+							onClick={handleCheckedLeft}
+							disabled={rightChecked.length === 0}
+							aria-label="move selected left">
+							&lt;
+						</Button>
+						<Button
+							variant="contained"
+							size="large"
+							onClick={handleAllLeft}
+							disabled={heroes.length === 0}
+							aria-label="move all left">
+							≪
+						</Button>
+					</ButtonGroup>
 				</Grid>
 			</Grid>
 
@@ -125,17 +127,18 @@ export default function App() {
 
 function SelectableList({ list, header, handleToggle, checked }) {
 	return (
-		<Stack sx={{ width: "100%", height: "100%", borderRadius: "4px", overflow: "clip" }}>
+		<Stack variant="hovering" sx={{ width: "100%", height: "100%", borderRadius: "4px", overflow: "clip" }}>
 			<Typography
-				variant="h5"
-				sx={{ bgcolor: "list.light", textAlign:"center", paddingY: "0.75rem" }}>
+				variant="heading"
+				sx={{ textAlign:"center", paddingY: "0.75rem" }}>
 				{header}
 			</Typography>
 			<List
 				dense
+				variant="styled"
 				component="div"
 				role="list"
-				sx={{ height: "100%", width: "100%", bgcolor: "list.dark", overflowY: "auto" }}>
+				sx={{ height: "100%", width: "100%", overflowY: "auto", scrollbarWidth:"thin" }}>
 				{list.map((value) => {
 					const labelId = `transfer-list-item-${value}-label`;
 					return (
@@ -149,6 +152,7 @@ function SelectableList({ list, header, handleToggle, checked }) {
 									tabIndex={-1}
 									disableRipple
 									inputProps={{"aria-labelledby": labelId}}
+									color="secondary"
 								/>
 							</ListItemIcon>
 							<ListItemText id={labelId} primary={value} />
