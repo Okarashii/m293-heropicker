@@ -1,6 +1,7 @@
 import SelectableList from './components/TransferList/SelectableList';
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import Box from '@mui/material/Box';
 import { useState } from 'react';
 
 export default function App() {
@@ -14,6 +15,8 @@ export default function App() {
 		"Pastor",
 		"Teacher",
 	];
+
+	const listStyle = {width: 200, height: "100%"};
 
 	const [checked, setChecked] = useState([]);
 	const [candidates, setCandidates] = useState(people);
@@ -59,13 +62,15 @@ export default function App() {
 	};
 
 	return (
-		<Grid container spacing={2} justifyContent="center" alignItems="center">
+		<Box container sx={{display: 'flex', gap: "3rem", height: 420}}>
 			<Grid item>
-				<SelectableList list={candidates} header="Candidates" handleToggle={handleToggle} checked={checked}/>
+				<Grid container sx={listStyle}>
+					<SelectableList list={candidates} header="Candidates" handleToggle={handleToggle} checked={checked}/>
+				</Grid>
 			</Grid>
 
 			<Grid item>
-				<Grid container direction="column" alignItems="center">
+				<Grid container direction="column" sx={{height: "100%", justifyContent: "center" }}>
 					<Button
 						sx={{ my: 0.5 }}
 						variant="outlined"
@@ -106,8 +111,10 @@ export default function App() {
 			</Grid>
 
 			<Grid item>
-				<SelectableList list={heroes} header="Heroes" handleToggle={handleToggle} checked={checked}/>
+				<Grid container sx={listStyle}>
+					<SelectableList list={heroes} header="Heroes" handleToggle={handleToggle} checked={checked}/>
+				</Grid>
 			</Grid>
-		</Grid>
+		</Box>
 	)
 }

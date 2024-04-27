@@ -18,6 +18,10 @@ const theme = createTheme({
 		background: {
 			default: '#04040e',
 		},
+		list: {
+			light: "#2b2b2b",
+			dark: "#121212",
+		}
 	},
 })
 
